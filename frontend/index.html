@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!-- saved from url=(0022)https://gotemplate.io/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="index, follow">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="google" content="nositelinkssearchbox">
+        <link rel="canonical" href="https://gotemplate.io/">
+
+        <title>Kubernetes Secret Editor</title>
+        <meta name="description" content="Quickly test and visualize your Kubernetes Secret live. Template and data never leave your browser. Requires WebAssembly support.">
+
+        <meta property="og:title" content="Kubernetes Secret Preview">
+        <meta property="og:description" content="Quickly test and visualize your Go templates live. Template and data never leave your browser. Requires WebAssembly support.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://michaelact.github.io/kubernetes-secret-editor">
+
+        <link rel="icon" type="image/x-icon" href="https://michaelact.github.io/kubernetes-secret-editor/favicon.ico">
+
+        <style>
+            * {
+                -moz-appearance: none;
+                -webkit-appearance: none;
+                appearance: none;
+                border: 0;
+                box-sizing: border-box;
+                color: inherit;
+                margin: 0;
+                outline: none;
+                padding: 0;
+            }
+            section {
+                margin: 0 auto;
+                width: 100%;
+                padding: 1rem;
+                max-width: 1200px;
+            }
+            textarea {
+                background: transparent;
+                display: block;
+                font-family: 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace;
+                font-size: .85rem;
+                line-height: 1.5;
+                height: 100%;
+                resize: none;
+                white-space: pre;
+                width: 100%;
+            }
+            h2{font-size:.7rem;letter-spacing:.033rem;font-weight:400}
+            a {display: inline-block; text-decoration: none}
+            a:hover {text-decoration: underline}
+            .textarea {
+                background: rgb(55 57 83 / 0.3);
+                border-radius: 1rem;
+                border: 1px solid rgb(221 214 254 / 0.1);
+                padding: 1rem;
+            }
+            .textarea-light {
+                background: rgb(55 57 83 / 0.1);
+                border-radius: 1rem;
+                border: 1px solid rgb(221 214 254 / 0.05);
+                padding: 1rem;
+            }
+        </style>
+
+        <script src="wasm_exec.js"></script>
+        <script>
+            const go = new Go();
+            WebAssembly.instantiateStreaming(fetch("kubernetes-secret.wasm"), go.importObject).then((result) => {
+                go.run(result.instance);
+            });
+            function render() {
+                var output = ProcessEncodedSecret(document.getElementById("input-tmpl").value);
+                document.getElementById("output").value = output.output;
+            };
+        </script>
+
+    <body style="
+        background: black;
+        background-image:
+            radial-gradient(farthest-corner at 0 100vh, #2700828F 0%, transparent 67%),
+            radial-gradient(farthest-corner at 100vw 100vh, #7A0BC05F 0%, transparent 67%);
+        color: white;
+        font-family: &#39;BlinkMacSystemFont&#39;, &#39;-apple-system&#39;, &#39;Segoe UI&#39;, &#39;Roboto&#39;, &#39;Helvetica&#39;, &#39;Arial&#39;, sans-serif, &#39;Apple Color Emoji&#39;, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;
+        min-width: 600px;
+    ">
+        <section id="header" style="display:flex;align-items:center;height:calc(90px + 2rem)">
+            <div>
+                <h1 style="font-size:1.8rem;font-weight:600">Kubernetes Secret Preview</h1>
+                <span style="font-size:.9rem;opacity:.9">
+                    <p style="margin-top:.5rem">Quickly test and visualize your <a href="https://kubernetes.io/docs/concepts/configuration/secret/" target="_blank" style="color:#FA58B6">Kubernetes Secret</a> live.</p>
+                    <p style="margin-top:.2rem"><a href="https://michaelact.github.io/kubernetes-secret-editor/what-is-this/" style="color:#FA58B6">What is this?</a> – <a href="https://michaelact.github.io/kubernetes-secret-editor/how-does-this-work/" style="color:#FA58B6">How does this work?</a></p>
+                </span>
+            </div>
+        </section>
+
+        <section id="main" style="display:flex;align-items:center;height:calc(calc(100vh - calc(calc(90px + 2rem) * 1)) - 2rem);min-height:calc(600px + 2rem);padding-bottom:1rem">
+            <div style="margin:0 auto;height:100%;width:calc(50% - .5rem);margin-right:1rem">
+                <span style="height:1.4rem;display:flex;align-items:flex-start;padding:0 .5rem">
+                    <h2 style="opacity:.75">KUBERNETEST SECRET <span style="opacity:.5">in <a href="https://kubernetes.io/docs/concepts/configuration/secret/" target="_blank">YAML</a> format</span></h2>
+                    <h2 id="error-tmpl-txt" style="color:#FA5958;margin-left:auto"></h2>
+                    <img id="error-tmpl-img" src="error.svg" style="display:none;margin-left:.25rem;width:1rem;height:1rem">
+                </span>
+                <div class="textarea" style="height:calc(100% - 1.4rem);margin-bottom:1rem"><textarea id="input-tmpl" style="height:100%" oninput="render();"></textarea></div>
+            </div>
+            <div style="margin:0 auto;height:100%;width:calc(50% - .5rem)">
+                <span style="height:1.4rem;display:flex;align-items:flex-start;padding:0 .5rem">
+                    <h2 style="opacity:.75">OUTPUT</h2>
+                    <h2 style="opacity:.75;margin-left:auto">powered by</h2>
+                    <a href="https://webassembly.org/" target="_blank"><img src="webassembly.svg" style="display:inline-block;margin-left:.25rem;width:1rem;height:1rem"></a>
+                </span>
+                <div class="textarea-light" style="height:calc(100% - 1.4rem)"><textarea id="output" placeholder="Rendered yaml will show up here..." disabled=""></textarea></div>
+            </div>
+        </section>
+        <section id="footer" style="padding-top:0;font-size:.8rem">
+            <p style="text-align: center;opacity:.67">Copyright © 2023 <a href="https://michaelact.github.io/kubernetes-secret-editor/" target="_blank">Michael Act</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://michaelact.github.io/kubernetes-secret-editor/privacy/" target="_blank">Privacy</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://michaelact.github.io/kubernetes-secret-editor/what-is-this/" target="_blank">About</a></p>
+        </section>
+
+</body></html>
