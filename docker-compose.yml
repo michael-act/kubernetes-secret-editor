@@ -1,0 +1,9 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kubernetes-secret-editor
+    restart: on-failure:5
+    ports:
+      - 127.0.0.1:8000:8000

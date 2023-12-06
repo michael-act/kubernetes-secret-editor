@@ -19,3 +19,7 @@
 
 # Go workspace file
 go.work
+
+kubernetes-secret.wasm
+wasm_exec.js
+*_test.go

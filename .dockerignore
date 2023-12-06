@@ -1,0 +1,4 @@
+kubernetes-secret.wasm
+wasm_exec.js
+frontend/*.js
+frontend/*.wasm
