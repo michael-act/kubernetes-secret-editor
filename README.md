@@ -1,10 +1,14 @@
-# Kubernetes Secret Editor
+# Kubernetes Secret Editor 🚀
+
+Explore it live on https://michael-act.github.io/kubernetes-secret-editor/ .
 
 <p align="center">
   <img src="docs/home-page.gif"></img>
 </p>
 
 Introducing Kubernetes Secret Editor, the effortless way to edit your Kubernetes secrets directly from your web browser! With the power of web assembly technology, your secret data stays secure, processed entirely on the client side. 
+
+## Run it Locally in 3 Simple Steps
  
 ### Prerequisites
 
