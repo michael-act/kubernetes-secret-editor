@@ -74,11 +74,27 @@
             function EncodeSecret() {
                 var output = ProcessEncodeSecret(document.getElementById("input-dec").value);
                 document.getElementById("input-enc").value = output.output;
+
+                if ('errorInput' in output) {
+                    document.getElementById("error-enc-txt").innerText = output.errorInput;
+                    document.getElementById("error-enc-img").style.display = "inline-block";
+                } else {
+                    document.getElementById("error-enc-txt").innerText = "";
+                    document.getElementById("error-enc-img").style.display = "none";
+                }
             };
 
             function DecodeSecret() {
                 var output = ProcessDecodeSecret(document.getElementById("input-enc").value);
                 document.getElementById("input-dec").value = output.output;
+
+                if ('errorInput' in output) {
+                    document.getElementById("error-dec-txt").innerText = output.errorInput;
+                    document.getElementById("error-dec-img").style.display = "inline-block";
+                } else {
+                    document.getElementById("error-dec-txt").innerText = "";
+                    document.getElementById("error-dec-img").style.display = "none";
+                }
             };
         </script>
 
@@ -112,7 +128,7 @@
             </div>
             <div style="margin:0 auto;height:100%;width:calc(50% - .5rem)">
                 <span style="height:1.4rem;display:flex;align-items:flex-start;padding:0 .5rem">
-                    <h2 style="opacity:.75">DECODED KUBERNETES SECRET</h2>
+                    <h2 style="opacity:.75">DECODED KUBERNETES SECRET <span style="opacity:.5">in <a href="https://kubernetes.io/docs/concepts/configuration/secret/" target="_blank">YAML</a> format</span></h2>
                     <h2 id="error-dec-txt" style="color:#FA5958;margin-left:auto"></h2>
                     <img id="error-dec-img" src="error.svg" style="display:none;margin-left:.25rem;width:1rem;height:1rem">
                     <h2 style="opacity:.75;margin-left:auto">powered by</h2>
