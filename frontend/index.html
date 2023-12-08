@@ -70,9 +70,15 @@
             WebAssembly.instantiateStreaming(fetch("kubernetes-secret.wasm"), go.importObject).then((result) => {
                 go.run(result.instance);
             });
-            function render() {
-                var output = ProcessEncodedSecret(document.getElementById("input-tmpl").value);
-                document.getElementById("output").value = output.output;
+
+            function EncodeSecret() {
+                var output = ProcessEncodeSecret(document.getElementById("input-dec").value);
+                document.getElementById("input-enc").value = output.output;
+            };
+
+            function DecodeSecret() {
+                var output = ProcessDecodeSecret(document.getElementById("input-enc").value);
+                document.getElementById("input-dec").value = output.output;
             };
         </script>
 
@@ -99,22 +105,24 @@
             <div style="margin:0 auto;height:100%;width:calc(50% - .5rem);margin-right:1rem">
                 <span style="height:1.4rem;display:flex;align-items:flex-start;padding:0 .5rem">
                     <h2 style="opacity:.75">KUBERNETEST SECRET <span style="opacity:.5">in <a href="https://kubernetes.io/docs/concepts/configuration/secret/" target="_blank">YAML</a> format</span></h2>
-                    <h2 id="error-tmpl-txt" style="color:#FA5958;margin-left:auto"></h2>
-                    <img id="error-tmpl-img" src="error.svg" style="display:none;margin-left:.25rem;width:1rem;height:1rem">
+                    <h2 id="error-enc-txt" style="color:#FA5958;margin-left:auto"></h2>
+                    <img id="error-enc-img" src="error.svg" style="display:none;margin-left:.25rem;width:1rem;height:1rem">
                 </span>
-                <div class="textarea" style="height:calc(100% - 1.4rem);margin-bottom:1rem"><textarea id="input-tmpl" style="height:100%" oninput="render();"></textarea></div>
+                <div class="textarea" style="height:calc(100% - 1.4rem);margin-bottom:1rem"><textarea id="input-enc" style="height:100%" placeholder="Please provide your encoded Kubernetes secret here..." oninput="DecodeSecret();"></textarea></div>
             </div>
             <div style="margin:0 auto;height:100%;width:calc(50% - .5rem)">
                 <span style="height:1.4rem;display:flex;align-items:flex-start;padding:0 .5rem">
-                    <h2 style="opacity:.75">OUTPUT</h2>
+                    <h2 style="opacity:.75">DECODED KUBERNETES SECRET</h2>
+                    <h2 id="error-dec-txt" style="color:#FA5958;margin-left:auto"></h2>
+                    <img id="error-dec-img" src="error.svg" style="display:none;margin-left:.25rem;width:1rem;height:1rem">
                     <h2 style="opacity:.75;margin-left:auto">powered by</h2>
                     <a href="https://webassembly.org/" target="_blank"><img src="webassembly.svg" style="display:inline-block;margin-left:.25rem;width:1rem;height:1rem"></a>
                 </span>
-                <div class="textarea-light" style="height:calc(100% - 1.4rem)"><textarea id="output" placeholder="Rendered yaml will show up here..." disabled=""></textarea></div>
+                <div class="textarea-light" style="height:calc(100% - 1.4rem)"><textarea id="input-dec" placeholder="Please provide your decoded Kubernetes secret here..." oninput="EncodeSecret();"></textarea></div>
             </div>
         </section>
         <section id="footer" style="padding-top:0;font-size:.8rem">
-            <p style="text-align: center;opacity:.67">Copyright © 2023 <a href="https://michaelact.github.io/kubernetes-secret-editor/" target="_blank">Michael Act</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://michaelact.github.io/kubernetes-secret-editor/privacy/" target="_blank">Privacy</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://michaelact.github.io/kubernetes-secret-editor/what-is-this/" target="_blank">About</a></p>
+            <p style="text-align: center;opacity:.67">Website theme are taken from <a href="https://gotemplate.io/" target="_blank">gotemplate.io</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://michaelact.github.io/kubernetes-secret-editor/privacy/" target="_blank">Privacy</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="https://michaelact.github.io/kubernetes-secret-editor/what-is-this/" target="_blank">About</a></p>
         </section>
 
 </body></html>

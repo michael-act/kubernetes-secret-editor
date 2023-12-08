@@ -1,4 +1,4 @@
-package decoder
+package encoder
 
 import (
 	"encoding/base64"
@@ -27,7 +27,7 @@ func GetSecretData(input []byte) (*common.SecretData, error) {
 func parseSecretData(s *common.SecretData) error {
 	var err error
 	for key, value := range s.Data {
-		s.Data[key], err = decodeString(value)
+		s.Data[key], err = encodeString(value)
 		if err != nil {
 			return err
 		}
@@ -36,11 +36,7 @@ func parseSecretData(s *common.SecretData) error {
 	return nil
 }
 
-func decodeString(encoded string) (string, error) {
-	decoded, err := base64.StdEncoding.DecodeString(encoded)
-	if err != nil {
-		return "", err
-	}
-
-	return string(decoded), nil
+func encodeString(decoded string) (string, error) {
+	encoded := base64.StdEncoding.EncodeToString([]byte(decoded))
+	return encoded, nil
 }
